@@ -158,7 +158,9 @@ function storeToken(response){
     const username = loginData.get('username')
 
     localStorage.setItem("token", response.token)
-    window.location.href = `./fishing-buddy-main/home.html?username=${username}`
+    localStorage.setItem("username", username)
+
+    window.location.href = `./fishing-buddy-main/home.html`
 }
 
 function fetchAndParse(url, method, optbody = null) {
