@@ -11,14 +11,15 @@ const formContainer = document.getElementById('form-container')
 mainDisplay()
 navBarEvents()
 userOptions()
+footerSignOut()
 
 function userOptions(){
-    console.log(localStorage.token)
+    if (localStorage.token) renderUser()
 }
 
 function renderUser() {
-    const searchParams = new URLSearchParams(window.location.search)
-    const username = searchParams.get('username')
+    const username = localStorage.username
+
     fetchUserWithToken(`${usersURL}/${username}`, "GET")
         .then(response => response.json())
         .then(addNameToNavBar)
@@ -35,37 +36,120 @@ function addNameToNavBar(user){
     name.addEventListener("click", (e) => {
         e.preventDefault()
         viewUserForm(user)
-
     })
+
+    viewUserForm(user)
 }
 
 function viewUserForm(user){
     clearContainer()
     const editUserForm = document.createElement('form')
-    editUserForm.innerHTML = `
-        <h2>Edit Your Profile<h2>
-        <label>Name</label>
-        <input type="text" name="name" placeholder="${user.name}">
-        <label>Username</label>
-        <input type="text" name="username" placeholder="${user.username}">
-        <label>Phone Number</label>
-        <input type="text" name="phone" placeholder="${user.phone}">
-        <label>Password</label>
-        <input type="password" name="password">
-        <label>Confirm Password</label>
-        <input type="password" name="password_confirmation">
+    editUserForm.id = "editUser"
 
-        <input id="changeUser" type="submit" value="Change User Profile">
-        <input id="delete" type="submit" value="Delete User">
+    editUserForm.innerHTML = `
+        <h2>Edit Your Profile</h2>
+        <label>Name:</label>
+        <input class="userinput" type="text" name="name" placeholder="${user.name}">
+        <label>Phone Number:</label>
+        <input class="userinput" type="text" name="phone" placeholder="${user.phone}">
+        <label>Confirm with your Password:</label>
+        <input class="userinput" type="password" name="password">
+        <div>
+            <ul id="errors"></ul>
+        </div>
     `
+    createUserButton(editUserForm)
+    deleteUserButton(editUserForm)
     formContainer.appendChild(editUserForm)
 }
 
+function createUserButton(form){
+    const editUserButton = document.createElement('input')
+    editUserButton.id = "changeUser"
+    editUserButton.type="submit"
+    editUserButton.value = "Edit User Profile"
+    form.appendChild(editUserButton)
 
+    editUserButton.addEventListener("click", (e) => {
+        e.preventDefault()
+        editUser()
+    })
+}
+
+function editUser(){
+    const ul = document.getElementById('errors')
+    ul.innerText = ""
+
+    const userForm = document.getElementById('editUser')
+    const userFormData = new FormData(userForm)
+    const userbody = {
+        name: userFormData.get('name'),
+        username: userFormData.get('username'),
+        phone: userFormData.get('phone'),
+        password: userFormData.get('password'),
+        password_confirmation: userFormData.get('password_confirmation'),
+    }
+
+    fetchUserWithToken(`${usersURL}/${localStorage.username}`, "PATCH", userbody)
+        .then(response => {
+            if (response.status >= 400) {
+                throw new Error("Bad request"),
+                displayErrors(response)
+            }
+            return response
+        }).then(response => {
+                alert("User Sucessfully Updated")
+                mainDisplay()
+        })
+}
+
+function displayErrors(response){
+    const ul = document.getElementById('errors')
+    const li = document.createElement('li')
+    li.innerText = "Invalid Field"
+    ul.append(li)
+}
+
+function deleteUserButton(form){
+    const editUserButton = document.createElement('input')
+    editUserButton.id = "deleteUser"
+    editUserButton.type="submit"
+    editUserButton.value = "Delete User"
+    form.appendChild(editUserButton)
+
+    editUserButton.addEventListener("click", (e) => {
+        e.preventDefault()
+        deleteUser()
+    })
+}
+
+function deleteUser(){
+    fetchUserWithToken(`${usersURL}/${localStorage.username}`, "DELETE")
+        .then(response => {
+            if (response.status >= 400) {
+                throw new Error("Bad request")
+            } else {
+                alert("User Sucessfully Deleted")
+                window.location.href = `../index.html`
+            }
+        })
+}
 
 function navBarEvents(){
     addUnlistedPattern()
     viewByInsectFamily()
+}
+
+function footerSignOut(){
+    const signout = document.getElementById("logout")
+    signout.addEventListener("click", (e) =>  
+        clearLocalStorage()
+    )
+}
+
+function clearLocalStorage(){
+    localStorage.removeItem('token')
+    localStorage.removeItem('username')
 }
 
 function viewByInsectFamily() {
@@ -380,7 +464,7 @@ function fetchAndParse(url, method, optbody = null) {
     .then(response => response.json())
 }
 
-function fetchUserWithToken(url, method) {
+function fetchUserWithToken(url, method, optbody = null) {
     const request = {
         method,
         headers: {
@@ -388,6 +472,9 @@ function fetchUserWithToken(url, method) {
             "Accept": "application/json",
             "Authorization": `Bearer ${localStorage.getItem("token")}`
         }
+    }
+    if (optbody) {
+        request.body = JSON.stringify(optbody)
     }
     return fetch(url, request)
 }
