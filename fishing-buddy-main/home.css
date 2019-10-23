@@ -107,6 +107,7 @@ footer {
     left: 0;
     bottom: 0;
     right: 0;
+    position: fixed;
     width: 100%;
     background-color: hsl(252, 10%, 10%);
     color: white;
@@ -114,6 +115,16 @@ footer {
     margin-top: auto;
     text-align: center;
     font-family: 'Lato', sans-serif;
+}
+
+#login-link {
+	color: white;
+	text-decoration: none;
+	text-transform: uppercase;
+}
+
+#login-link:active {
+	color: hsl(0, 0%, 69%);
 }
 
 #new-pattern-form, #new-color-form {

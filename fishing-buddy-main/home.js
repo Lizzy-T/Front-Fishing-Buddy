@@ -1,7 +1,8 @@
-const baseURL = "http://localhost:3000/"
-const patternsURL = `${baseURL}patterns/`
-const insectfamilites = `${baseURL}insectfamilies`
-const colorsURL = `${baseURL}colors`
+const baseURL = "http://localhost:3000"
+const patternsURL = `${baseURL}/patterns/`
+const insectfamilites = `${baseURL}/insectfamilies`
+const colorsURL = `${baseURL}/colors`
+const usersURL = `${baseURL}/users`
 
 const cardContainer = document.getElementById('card-container')
 const formContainer = document.getElementById('form-container')
@@ -9,12 +10,63 @@ const formContainer = document.getElementById('form-container')
 
 mainDisplay()
 navBarEvents()
+userOptions()
+
+function userOptions(){
+    console.log(localStorage.token)
+}
+
+function renderUser() {
+    const searchParams = new URLSearchParams(window.location.search)
+    const username = searchParams.get('username')
+    fetchUserWithToken(`${usersURL}/${username}`, "GET")
+        .then(response => response.json())
+        .then(addNameToNavBar)
+
+}
+
+function addNameToNavBar(user){
+    const mainNav = document.getElementById('main-nav')
+    const name = document.createElement('h5')
+    
+    name.innerText = user.name
+    mainNav.appendChild(name)
+
+    name.addEventListener("click", (e) => {
+        e.preventDefault()
+        viewUserForm(user)
+
+    })
+}
+
+function viewUserForm(user){
+    clearContainer()
+    const editUserForm = document.createElement('form')
+    editUserForm.innerHTML = `
+        <h2>Edit Your Profile<h2>
+        <label>Name</label>
+        <input type="text" name="name" placeholder="${user.name}">
+        <label>Username</label>
+        <input type="text" name="username" placeholder="${user.username}">
+        <label>Phone Number</label>
+        <input type="text" name="phone" placeholder="${user.phone}">
+        <label>Password</label>
+        <input type="password" name="password">
+        <label>Confirm Password</label>
+        <input type="password" name="password_confirmation">
+
+        <input id="changeUser" type="submit" value="Change User Profile">
+        <input id="delete" type="submit" value="Delete User">
+    `
+    formContainer.appendChild(editUserForm)
+}
+
+
 
 function navBarEvents(){
     addUnlistedPattern()
     viewByInsectFamily()
 }
-
 
 function viewByInsectFamily() {
     const insectFamily = document.getElementById('viewfamily')
@@ -326,4 +378,16 @@ function fetchAndParse(url, method, optbody = null) {
     }
     return fetch(url, request)
     .then(response => response.json())
+}
+
+function fetchUserWithToken(url, method) {
+    const request = {
+        method,
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("token")}`
+        }
+    }
+    return fetch(url, request)
 }
