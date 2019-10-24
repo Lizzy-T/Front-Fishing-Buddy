@@ -100,7 +100,6 @@ nav {
     float: left;
     height: 100vh;
     padding: 4rem 1rem;
-    margin-right: 2rem;
 }
 
 #nav-list {
@@ -128,13 +127,14 @@ nav {
 }
 
 main {
-    margin-left: 10.5rem;
-    padding: 1rem 2rem;
+    margin-left: 173px;
     font-family: 'Open Sans', sans-serif;
     min-height: 100%;
     height: 100%;
     height: auto;
     margin-bottom: 50px;
+    padding-left: 25px;
+    padding-top: 25px;
 }
 
 h4 {
@@ -173,7 +173,22 @@ footer {
 	color: hsl(0, 0%, 69%);
 }
 
-#new-pattern-form, #new-color-form, #editUser {
+#form-container {
+    display: grid;
+    grid-template-columns: minmax(auto, 400px) auto;
+    grid-template-rows: 10px auto auto auto;
+    justify-items: flex-start;
+    column-gap: 2%;
+}
+
+#form-container img{
+    width: 100%;
+    grid-row: 1 / span 4;
+}
+
+
+#new-pattern-form {
+    grid-row: 1 / span 2;
     display: grid;
     grid-template-columns: 13rem 13rem;
     align-items: center;
@@ -183,13 +198,32 @@ footer {
     grid-row-gap: 5px;
 }
 
+#new-color-form {
+    grid-row: 3 / span 1;
+    display: grid;
+    grid-template-columns: 13rem 13rem;
+    align-items: center;
+    justify-content: center;
+    justify-items: end;
+    grid-column-gap: 7px;
+    grid-row-gap: 5px;
+}
+
+#editUser {
+    grid-row: 2 / span 2;
+    display: grid;
+    grid-template-columns: 13rem 13rem;
+    align-items: center;
+    justify-content: center;
+    justify-items: end;
+    grid-column-gap: 7px;
+    grid-row-gap: 5px;
+}
+
+
 #new-pattern-form, #editUser {
     margin-top: 10px;
     margin-bottom: 3rem;
-}
-
-#new-color-form {
-    margin-bottom: 57vh;
 }
 
 #new-pattern-form label {
