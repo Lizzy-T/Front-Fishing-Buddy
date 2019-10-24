@@ -76,6 +76,30 @@ nav {
     margin-right: 2rem;
 }
 
+#nav-list {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.click-able:hover, #family-list li:hover {
+    cursor: pointer;
+}
+
+.click-able:active, #family-list li:active {
+    color: hsl(0, 0%, 69%);
+}
+
+#family-list li {
+    padding-left: 30px;
+}
+
+#user-name {
+    font-size: 25px;
+    order: -1;
+    font-style: italic;
+}
+
 main {
     margin-left: 10.5rem;
     padding: 1rem 2rem;
@@ -98,7 +122,7 @@ h4 {
 }
 
 li {
-    padding: 4px 8px;
+    padding: 7px 8px;
     font-style: normal;
     font-size: small;
 }

@@ -10,7 +10,6 @@ const formContainer = document.getElementById('form-container')
 
 mainDisplay()
 navBarEvents()
-userOptions()
 footerSignOut()
 
 function userOptions(){
@@ -27,8 +26,10 @@ function renderUser() {
 }
 
 function addNameToNavBar(user){
-    const mainNav = document.getElementById('main-nav')
-    const name = document.createElement('h5')
+    const mainNav = document.getElementById('nav-list')
+    const name = document.createElement('li')
+    name.id = "user-name"
+    name.className = 'click-able'
     
     name.innerText = user.name
     mainNav.appendChild(name)
@@ -137,7 +138,8 @@ function deleteUser(){
 
 function navBarEvents(){
     addUnlistedPattern()
-    viewByInsectFamily()
+    viewByFamily()
+    userOptions()
 }
 
 function footerSignOut(){
@@ -152,14 +154,6 @@ function clearLocalStorage(){
     localStorage.removeItem('username')
 }
 
-function viewByInsectFamily() {
-    const insectFamily = document.getElementById('viewfamily')
-    insectFamily.addEventListener("click", e => {
-        e.preventDefault()
-        viewByFamily()  
-    })
-}
-
 function viewByFamily(){
     fetchAndParse(insectfamilites, "GET")
         .then(familyOptions)
@@ -167,8 +161,8 @@ function viewByFamily(){
 
 function familyOptions(families){
     let allPatterns = null
-    const nav = document.getElementById('filter-nav-bar')
-    const ul = document.createElement('ul')
+    const ul = document.getElementById('family-list')
+    ul.innerText = ""
 
     fetchAndParse(patternsURL, "GET")
         .then(patterns => allPatterns = patterns)
@@ -177,7 +171,7 @@ function familyOptions(families){
         const li = document.createElement('li')
         li.value = family.id 
         li.innerText = family.name
-        nav.appendChild(li)
+        ul.appendChild(li)
 
         li.addEventListener("click", e => {
             e.preventDefault()
@@ -185,11 +179,9 @@ function familyOptions(families){
             displayFlies(filteredPatterns)
         })
     })
-    nav.append(ul)
 }
 
 function mainDisplay(){
-    viewCardsBySearch()
     defaultShowAllPatterns()
 
     const patterns = document.getElementById("patterns")
@@ -201,22 +193,22 @@ function mainDisplay(){
 
 }
 
-function viewCardsBySearch(){
-    let patternlist = null
+// function viewCardsBySearch(){
+//     let patternlist = null
     
-    fetchAndParse(patternsURL, "GET")
-    .then(patternObj =>patternlist = patternObj)
+//     fetchAndParse(patternsURL, "GET")
+//     .then(patternObj =>patternlist = patternObj)
     
-    const search = document.createElement('input')
-    search.type = "text"
+//     const search = document.createElement('input')
+//     search.type = "text"
 
-    formContainer.appendChild(search)
+//     formContainer.appendChild(search)
 
-    search.addEventListener("input", e => {
-        e.preventDefault()
-        const filteredFlies = patternlist.filter(pattern => e.target.value === pattern.name)
-    })
-}
+//     search.addEventListener("input", e => {
+//         e.preventDefault()
+//         const filteredFlies = patternlist.filter(pattern => e.target.value === pattern.name)
+//     })
+// }
 
 function defaultShowAllPatterns(){
     clearContainer()
