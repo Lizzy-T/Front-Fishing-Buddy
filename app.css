@@ -56,12 +56,37 @@ table {
 header {
 	display: flex;
 	justify-content: center;
+	align-items: center;
     font-size: xx-large;
-    font-style: black;
-    padding: 3rem 3rem;
+	font-style: black;
+	padding-bottom: 5px;
+	padding-top: 15px;
+	padding-left: 0px;
+	padding-right: 0px;
     background: hsl(252, 10%, 10%);
     color: white;
     width: 100%;
+}
+
+header h1 {
+	font-family: 'Lato', sans-serif;
+	text-align: left;
+}
+
+header h2 {
+	font-family: 'Lato', sans-serif;
+	font-style: italic;
+	text-align: right;
+	font-size: 26px;
+	padding-right: 12px;
+	padding-bottom: 25px;
+
+}
+
+header img {
+	width: 85px;
+	align-self: flex-start;
+	padding-bottom: 58px;
 }
 
 
@@ -72,34 +97,17 @@ nav {
 	float: left;
     height: 100vh;
     padding: 4rem 1rem;
-    margin-right: 2rem;
 }
 
 main {
     margin-left: 123px;
-    padding: 1rem 2rem;
+    padding: 25px 30px;
     font-family: 'Open Sans', sans-serif;
     min-height: 100%;
     height: 100%;
     height: auto;
 }
 
-header h1 {
-    font-family: 'Lato', sans-serif;
-	text-align: left;
-	flex-grow: 1.5;
-
-}
-
-header h2 {
-	font-family: 'Lato', sans-serif;
-	font-style: italic;
-	text-align: right;
-	font-size: 26px;
-	flex-grow: 1;
-	padding-right: 20px;
-	align-self: flex-start;
-}
 
 nav li {
     padding: 8px 10px;
@@ -144,17 +152,29 @@ footer {
 }
 
 #form-container {
-	padding-right: 90px;
+	display: grid;
+	grid-template-columns: auto auto;
+	grid-template-rows: 20% auto auto auto;
+	justify-content: flex-start;
+	grid-column-gap: 1%;
+}
+
+#form-container img {
+	width: 100%;
+	max-width: 500px;
+	grid-row: 1 / span 4;
 }
 
 #login-form, #signup-form {
+	align-self: flex-start;
+	grid-row: 2 / span 2;
 	display: grid;
 	grid-template-columns: 240px 240px;
 	align-items: center;
     justify-content: center;
     justify-items: end;
     grid-column-gap: 7px;
-    grid-row-gap: 5px;
+	grid-row-gap: 5px;
 }
 
 #login-form h2, #signup-form h2 {

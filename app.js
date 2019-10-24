@@ -26,6 +26,9 @@ function renderSignupForm(){
     formContainer.innerHTML = ""
 
     const form = document.createElement('form')
+    const img = document.createElement('img')
+    img.src = "./photos/fish-closeup.jpg"
+
     form.id = "signup-form"
     form.innerHTML = `
         <h2>Create a New User</h2>
@@ -43,7 +46,7 @@ function renderSignupForm(){
             <ul id="error-list"></ul>
         </div>
     `
-    formContainer.appendChild(form)
+    formContainer.append(img, form)
 
     submitNewUser()
 }
@@ -102,7 +105,8 @@ function clearErrors(){
 
 function renderLoginForm(){
     formContainer.innerHTML = ""
-
+    const img = document.createElement('img')
+    img.src = "./photos/peach+fish.jpeg"
     const form = document.createElement('form')
     form.id = "login-form"
     form.innerHTML = `
@@ -117,7 +121,7 @@ function renderLoginForm(){
             </ul>
         </div>
     `
-    formContainer.appendChild(form)
+    formContainer.append(img, form)
 
     loginButton()
 }
