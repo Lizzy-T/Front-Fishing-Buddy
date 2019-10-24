@@ -8,7 +8,7 @@ const cardContainer = document.getElementById('card-container')
 const formContainer = document.getElementById('form-container')
 
 
-mainDisplay()
+// mainDisplay()
 navBarEvents()
 footerSignOut()
 
@@ -45,14 +45,21 @@ function addNameToNavBar(user){
 function viewUserForm(user){
     clearContainer()
     const editUserForm = document.createElement('form')
+    const img = document.createElement('img')
+    if (user.picture) {
+        img.src = user.picture
+    }else{
+        img.src = "../photos/brookie-frasier.jpg"
+    }
     editUserForm.id = "editUser"
-
     editUserForm.innerHTML = `
         <h2>Edit Your Profile</h2>
         <label>Name:</label>
         <input class="userinput" type="text" name="name" placeholder="${user.name}">
         <label>Phone Number:</label>
         <input class="userinput" type="text" name="phone" placeholder="${user.phone}">
+        <label>Profile Picture:</label>
+        <input class="userinput" type="text" name="picture" placeholder="Image URL">
         <label>Confirm with your Password:</label>
         <input class="userinput" type="password" name="password">
         <div>
@@ -61,7 +68,7 @@ function viewUserForm(user){
     `
     createUserButton(editUserForm)
     deleteUserButton(editUserForm)
-    formContainer.appendChild(editUserForm)
+    formContainer.append(img, editUserForm)
 }
 
 function createUserButton(form){
@@ -87,6 +94,7 @@ function editUser(){
         name: userFormData.get('name'),
         username: userFormData.get('username'),
         phone: userFormData.get('phone'),
+        picture: userFormData.get('picture'),
         password: userFormData.get('password'),
         password_confirmation: userFormData.get('password_confirmation'),
     }
@@ -226,12 +234,14 @@ function addUnlistedPattern(){
 
 function addNewFly(){
     clearContainer()
-    createNewPatternForm(formContainer)
+    createNewPatternForm()
     createNewColorForm(formContainer)
 }
 
-function createNewPatternForm(container){
+function createNewPatternForm(){
     const newPatternForm = document.createElement('form')
+    const img = document.createElement('img')
+    img.src = "../photos/fish-closeup.jpg"
     newPatternForm.id = "new-pattern-form"
     newPatternForm.innerHTML = `
     <h2>Add a new Pattern!</h2>
@@ -250,7 +260,7 @@ function createNewPatternForm(container){
         <option value="">- Select -</option>
     </select>
     `
-    container.appendChild(newPatternForm)
+    formContainer.append(img, newPatternForm)
     addOptions()
     submitNewFly(newPatternForm)
 }
