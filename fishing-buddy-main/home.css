@@ -321,6 +321,25 @@ footer {
     justify-self: start;
 }
 
+#color-name{
+    margin: 2px 0px;
+}
+
+#new-color-form .sidenote {
+    grid-column: 1;
+    text-align: right;
+    font-size: 10px;
+}
+
+#new-color-form label {
+    text-align: right;
+}
+
+#new-color-form #name-of-color-input{
+    align-self: start;
+    margin-top: 3px;
+}
+
 #card-container {
     display: flex;
     flex-direction: row;
