@@ -1,5 +1,6 @@
 <h1>Fishing Buddy - Front</h1>
-<p>Follow this link to use the complete app: <a href="">Fishing Buddy</a></p>
+<p>Follow <a href="">this link</a> to use the complete app (deployed with Firebase)</p>
+<p>Follow <a href="https://github.com/Lizzy-T/backend_fishing_buddy">this link</a> to view the repo of the back-end.</p>
 
 <p>This application was designed with fly-fishermen (and woman) in mind!</p>
 <h4>Features:</h4>
