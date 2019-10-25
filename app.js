@@ -42,9 +42,7 @@ function renderSignupForm(){
         <input class="form-input" type="password" name="password_confirmation">
         <p class="side-note">Must contain an Uppercase Letter, Lowercase Letter, Number, and a special character.</p>
         <input id="submit-new-user" type="submit" value="Create User">
-        <div class="error-display">
-            <ul id="error-list"></ul>
-        </div>
+        <ul id="errors"></ul>
     `
     formContainer.append(img, form)
 
@@ -92,14 +90,14 @@ function displayErrors(errors){
 }
 
 function renderErrors(error){
-    const ul = document.getElementById('error-list')
+    const ul = document.getElementById('errors')
     const li = document.createElement('li')
     li.innerText=(error)
     ul.appendChild(li)
 }
 
 function clearErrors(){
-    const ul = document.getElementById('error-list')
+    const ul = document.getElementById('errors')
     ul.innerText=""
 }
 
@@ -116,10 +114,8 @@ function renderLoginForm(){
         <label>Password</label>
         <input class="form-input" type="password" name="password">
         <input id="login-submit" type="submit" value="Log In">
-        <div class="error-display">
-            <ul id="error-list">
-            </ul>
-        </div>
+        <ul id="errors">
+        </ul>
     `
     formContainer.append(img, form)
 
