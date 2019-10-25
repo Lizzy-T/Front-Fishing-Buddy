@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Sacramento&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Kalam&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Libre+Franklin&display=swap');
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -15,7 +21,6 @@ time, mark, audio, video {
 	padding: 0;
 	border: 0;
 	font-size: 100%;
-	font: inherit;
 	vertical-align: baseline;
 }
 article, aside, details, figcaption, figure, 
@@ -41,8 +46,6 @@ table {
 	border-spacing: 0;
 }
 
-@import url('https://fonts.googleapis.com/css?family=Lato:700&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 
 .color1 {color: hsla(218, 55%, 29%, 100%)};
 .color2 {color: hsla(168, 100%, 19%, 100%)};
@@ -57,8 +60,6 @@ header {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-    font-size: xx-large;
-	font-style: black;
 	padding-bottom: 5px;
 	padding-top: 15px;
 	padding-left: 0px;
@@ -69,8 +70,11 @@ header {
 }
 
 header h1 {
-	font-family: 'Gloria Hallelujah', cursive;
-	text-align: left;
+    font-size: 55px;
+    font-style: normal;
+    font-weight: 1px;
+    text-align: left;
+    font-family: 'Sacramento', cursive;
 }
 
 header h2 {
@@ -78,7 +82,7 @@ header h2 {
 	font-style: italic;
 	text-align: right;
 	font-size: 26px;
-	padding-right: 12px;
+	padding-right: 20px;
 	padding-bottom: 25px;
 
 }
@@ -96,20 +100,23 @@ nav {
 	font-family: 'Lato', sans-serif;
 	float: left;
     height: 100vh;
-    padding: 4rem 1rem;
+    padding: 113px 57px;
 }
 
 main {
-    margin-left: 123px;
-    padding: 25px 30px;
+    margin-left: 206px;
     font-family: 'Open Sans', sans-serif;
     min-height: 100%;
     height: 100%;
     height: auto;
+    margin-bottom: 50px;
+    padding-left: 25px;
+    padding-top: 25px;
 }
 
 
 nav li {
+	font-family: 'Libre Franklin', sans-serif;
     padding: 8px 10px;
     font-style: normal;
     font-size: 20px;
@@ -201,5 +208,19 @@ footer {
     align-self: center;
     justify-self: center;
 	width: 10rem;
-	margin-top: 5px;
+	margin-top: 9px;
+}
+
+#errors {
+	margin-top: 9px;
+    color: red;
+    grid-column: 1 / span 2;
+    align-self: stretch;
+    justify-self: stretch;
+    text-align: center;
+}
+
+#errors li {
+	font-size: 11px;
+	grid-column: 1 / span 2;
 }

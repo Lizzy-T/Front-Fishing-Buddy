@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Lato:700&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Kalam&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Sacramento&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Kalam&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Libre+Franklin&display=swap');
@@ -113,19 +112,31 @@ nav {
 
 #family-list li {
     padding-left: 30px;
+    font-size: 12px;
 }
 
 #user-name {
     font-size: 25px;
-    order: -2;
+    order: -3;
     font-family: 'Libre Franklin', sans-serif;
+    border-bottom: double;
+    padding-bottom: 2px;
 }
 
 #fishing-log {
-    order: -1;
+    order: -2;
     font-family: 'Kalam', cursive;
     font-size: 20px;
+}
 
+#new-log {
+    order: -1;
+    font-size: 16px;
+    margin-bottom: 14px;
+}
+
+#patterns, #viewfamily, #family-list, #add-new-pattern {
+    font-size: 13px;
 }
 
 main {
@@ -146,7 +157,7 @@ h4 {
 }
 
 li {
-    padding: 7px 8px;
+    margin: 7px 8px;
     font-style: normal;
     font-size: small;
 }
@@ -222,6 +233,36 @@ footer {
     grid-row-gap: 5px;
 }
 
+#editUser label {
+    text-align: right;
+}
+
+#create-log{
+    grid-row: 2 / span 2;
+    display: grid;
+    grid-template-columns: 13rem 13rem;
+    align-items: center;
+    justify-content: center;
+    justify-items: end;
+    grid-column-gap: 7px;
+    grid-row-gap: 5px;
+}
+
+#addToLog{
+    margin-top: 11px;
+}
+
+#errors {
+    color: red;
+    grid-column: 1 / span 2;
+    align-self: stretch;
+    justify-self: stretch;
+    text-align: center;
+}
+
+#errors li {
+    font-size: 11px;
+}
 
 #new-pattern-form, #editUser {
     margin-top: 10px;
@@ -234,28 +275,30 @@ footer {
     text-align: end;
 }
 
-#new-pattern-form h2, #new-color-form h3, #editUser h2 {
+#new-pattern-form h2, #new-color-form h3, #editUser h2, #create-log h2 {
     grid-column: 1 / span 2;
     align-self: stretch;
     justify-self: stretch;
     text-align: center;
     padding: 15px;
     margin-bottom: 5px;
+    font-family: 'Kalam', cursive;
+    font-size: 23px;
 }
 
 
-#new-pattern-form .patternInput, #editUser .userinput {
+#new-pattern-form .patternInput, #editUser .userinput, #create-log .userinput {
     align-self: center;
     justify-self: start;
 }
 
-#select-family, #pattern-select {
+#select-family, #pattern-select, #color-select {
     width: 130px;
     align-self: center;
     justify-self: start;
 }
 
-#pattern-button, #color-button, #changeUser, #deleteUser{
+#pattern-button, #color-button, #changeUser, #deleteUser, #addToLog{
     grid-column: 1 / span 2;
     align-self: center;
     justify-self: center;
@@ -291,15 +334,17 @@ footer {
     display: grid;
     grid-template-columns: minmax(200px, 400px) minmax(5px, 200px) auto;
     grid-template-rows: auto auto auto auto;
-    align-content: center;
+    align-content: start;
     column-gap: 1%;
     row-gap: 1%;
-    margin-bottom: 25px;
+    margin-bottom: 65px;
+    max-width: 850px;
 }
 
 .log-card h4{
-    grid-column: 1 / span 3;
+    grid-column: 1 / span 2;
     font-size: 23px;
+    border-bottom: double;
 }
 
 .log-card .day-card-img {

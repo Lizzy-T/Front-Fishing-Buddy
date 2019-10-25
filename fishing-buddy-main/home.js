@@ -9,7 +9,6 @@ const currentUserDays = `${currentUserUrl}/days`
 const cardContainer = document.getElementById('card-container')
 const formContainer = document.getElementById('form-container')
 
-// renderLogForm()
 mainDisplay()
 navBarEvents()
 footerSignOut()
@@ -72,7 +71,7 @@ function renderLogForm(){
         <label>River:</label>
         <input class="userinput" type="text" name="location" placeholder="Clear Creek">
         <label>River Access:</label>
-        <input class="userinput" type="text" name="directions">
+        <textarea class="userinput" name="directions"></textarea>
         <label>Pattern Used:</label>
         <select id="pattern-select" type="select" name="colors" onchange="changeColorOption()">
             <option value=""> - Select - </option>
@@ -82,14 +81,15 @@ function renderLogForm(){
             <option value=""> - Select - </option>
         </select>
         <label>How was the Fishing?</label>
-        <input class="userinput" type="text" name="comments">
+        <textarea class="userinput" type="text" name="comments"></textarea>
         <label>Picture of the Day:</label>
         <input class="userinput" type="url" name="picture" placeholder="Image URL">
-        <input type="submit" value="Add to Log">
+        <input id="addToLog" type="submit" value="Add to Log">
         <ul id="errors"></ul>
     `
-    addPatternOption()
+    addPictureToFormContainer("../photos/fish-closeup.jpg")
     formContainer.append(form)
+    addPatternOption()
     submitLogForm(form)
 }
 
@@ -304,7 +304,7 @@ function deleteUserButton(form){
     const editUserButton = document.createElement('input')
     editUserButton.id = "deleteUser"
     editUserButton.type="submit"
-    editUserButton.value = "Delete User"
+    editUserButton.value = "Delete Account"
     form.appendChild(editUserButton)
 
     editUserButton.addEventListener("click", (e) => {
@@ -421,8 +421,7 @@ function addNewFly(){
 
 function createNewPatternForm(){
     const newPatternForm = document.createElement('form')
-    const img = document.createElement('img')
-    img.src = "../photos/fish-closeup.jpg"
+    
     newPatternForm.id = "new-pattern-form"
     newPatternForm.innerHTML = `
     <h2>Add a new Pattern!</h2>
@@ -431,7 +430,7 @@ function createNewPatternForm(){
     <label>Dry or Wet fly?</label>
     <input class="patternInput" type="text" name="dry_wet" placeholder="Dry">
     <label>Description:</label>
-    <input class="patternInput" type="text" name="description" placeholder="">
+    <textarea class="patternInput" name="description"></textarea>
     <label>Species:</label>
     <input class="patternInput" type="text" name="species" placeholder="BWO">
     <label>Life Stage:</label>
@@ -441,9 +440,16 @@ function createNewPatternForm(){
         <option value="">- Select -</option>
     </select>
     `
-    formContainer.append(img, newPatternForm)
+    addPictureToFormContainer("../photos/fish-closeup.jpg")
+    formContainer.append(newPatternForm)
     addOptions()
     submitNewFly(newPatternForm)
+}
+
+function addPictureToFormContainer(source){
+    const img = document.createElement('img')
+    img.src = source
+    formContainer.append(img)
 }
 
 function submitNewFly(container){
