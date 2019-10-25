@@ -3,12 +3,14 @@ const patternsURL = `${baseURL}/patterns/`
 const insectfamilites = `${baseURL}/insectfamilies`
 const colorsURL = `${baseURL}/colors`
 const usersURL = `${baseURL}/users`
+const currentUserUrl = `${usersURL}/${localStorage.username}`
+const currentUserDays = `${currentUserUrl}/days`
 
 const cardContainer = document.getElementById('card-container')
 const formContainer = document.getElementById('form-container')
 
-
-// mainDisplay()
+// renderLogForm()
+mainDisplay()
 navBarEvents()
 footerSignOut()
 
@@ -26,6 +28,7 @@ function renderUser() {
 }
 
 function addNameToNavBar(user){
+    if (user.errors) return
     const mainNav = document.getElementById('nav-list')
     const name = document.createElement('li')
     name.id = "user-name"
@@ -39,7 +42,182 @@ function addNameToNavBar(user){
         viewUserForm(user)
     })
 
-    viewUserForm(user)
+    addDaysToNavBar()
+    addNewDay()
+}
+
+function addNewDay(){
+    const ul = document.getElementById('nav-list')
+    const li = document.createElement('li')
+
+    li.innerText = "New Log Entry"
+    li.className = "click-able"
+    li.id = "new-log"
+
+    ul.appendChild(li)
+    li.addEventListener("click", (e) => {
+        e.preventDefault()
+        renderLogForm()
+    })
+}
+
+function renderLogForm(){
+    clearContainer()
+    const form = document.createElement('form')
+    form.id = "create-log"
+    form.innerHTML = `
+        <h2>Add a New Fishing Day to Your Log!</h2>
+        <label>Date:</label>
+        <input class="userinput" type="date" name="date">
+        <label>River:</label>
+        <input class="userinput" type="text" name="location" placeholder="Clear Creek">
+        <label>River Access:</label>
+        <input class="userinput" type="text" name="directions">
+        <label>Pattern Used:</label>
+        <select id="pattern-select" type="select" name="colors" onchange="changeColorOption()">
+            <option value=""> - Select - </option>
+        </select>
+        <label>Color of Pattern:</label>
+        <select id="color-select" type="select" name="color_id">
+            <option value=""> - Select - </option>
+        </select>
+        <label>How was the Fishing?</label>
+        <input class="userinput" type="text" name="comments">
+        <label>Picture of the Day:</label>
+        <input class="userinput" type="url" name="picture" placeholder="Image URL">
+        <input type="submit" value="Add to Log">
+        <ul id="errors"></ul>
+    `
+    addPatternOption()
+    formContainer.append(form)
+    submitLogForm(form)
+}
+
+function submitLogForm(form){
+    form.addEventListener("submit", e => {
+        e.preventDefault()
+        createLog()
+    })
+}
+
+function createLog(){
+    const form = document.getElementById('create-log')
+    const rawData = new FormData(form)
+    const logData = {
+        date: rawData.get('date'),
+        directions: rawData.get('directions'),
+        location: rawData.get('location'),
+        comments: rawData.get('comments'),
+        picture: rawData.get('picture'),
+        color_id: rawData.get('color_id'),
+    }
+
+    fetchUserWithToken(currentUserDays, "POST", logData)
+        .then(response => response.json())
+        .then(response => {
+            if (response.status >= 400){
+                displayErrors()
+            } else {
+                alert("Added to your fishing log!")
+                getCurrentUserDays()
+            }
+        })
+}
+
+function addPatternOption(){
+    fetchAndParse(patternsURL, "GET")
+        .then(appendPatterns)
+}
+
+function appendPatterns(patterns){
+    patterns.forEach(createOptionForPatternSelect)
+}
+
+function createOptionForPatternSelect(pattern){
+    const select = document.getElementById('pattern-select')
+    const option = document.createElement('option')
+    option.value = pattern.colors.map(color => color.name + "-" + color.id)
+    option.innerText = pattern.name 
+    select.appendChild(option)
+}
+
+function changeColorOption(){
+    removeColorOptions()
+    const select = document.getElementById('color-select')
+    const form = document.getElementById('create-log')
+    const data = new FormData(form)
+    const colorString = data.get("colors")
+    const colorPairs = colorString.split(",")
+    colorPairs.forEach(pair => {
+        const newPair = pair.split("-")
+        const option = document.createElement('option')
+        option.className = "color-option"
+        if (newPair[0] === "None") return
+        option.innerText = newPair[0]
+        option.value = newPair[1]
+        select.appendChild(option)
+    })
+}
+
+function removeColorOptions(){
+    const options = document.getElementsByClassName('color-option')
+    for (let option of options){
+        option.remove()
+    }
+}
+
+function addDaysToNavBar(){
+    const ul = document.getElementById('nav-list')
+    const li = document.createElement('li')
+
+    li.innerText = "My Fishing Log"
+    li.className = "click-able"
+    li.id = "fishing-log"
+
+    ul.appendChild(li)
+    li.addEventListener("click", (e) => {
+        e.preventDefault()
+        getCurrentUserDays()
+    })
+}
+
+function getCurrentUserDays(){
+    clearContainer()
+    fetchUserWithToken(currentUserDays, "GET")
+        .then(response => {
+            return response.json()
+        }).then(displayDays)
+}
+
+function displayDays(days){
+    days.forEach(day => {
+        let colorName = ""
+        if (day.color.name) colorName = day.color.name + " "
+        const colorPatternName = colorName + day.patternName
+        const div = document.createElement('div')
+        div.className = "log-card"
+        div.innerHTML = `
+            <h4>Fishing Log: ${day.date}</h4>
+            <ul>
+                <li>Location: ${day.location}</li>
+                <li>Directions: ${day.directions}</li>
+                <li class="comment">Pattern of Choice: ${colorPatternName}</li>
+            </ul>
+            <img class="day-card-pattern" src=${day.color.image}>
+            <p>Comments: ${day.comments}</p>
+        `
+        addDayOptPicture(day.picture, div)
+
+        cardContainer.appendChild(div)
+    })
+}
+
+function addDayOptPicture(source, parent){
+    const img = document.createElement('img')
+    img.className = "day-card-img"
+    if (source) img.src = source
+    else img.src = "../photos/green-back-cutthroat.jpg"
+    parent.appendChild(img)
 }
 
 function viewUserForm(user){
@@ -57,7 +235,7 @@ function viewUserForm(user){
         <label>Name:</label>
         <input class="userinput" type="text" name="name" placeholder="${user.name}">
         <label>Phone Number:</label>
-        <input class="userinput" type="text" name="phone" placeholder="${user.phone}">
+        <input class="userinput" type="tel" name="phone" placeholder="${user.phone}">
         <label>Profile Picture:</label>
         <input class="userinput" type="text" name="picture" placeholder="Image URL">
         <label>Confirm with your Password:</label>
@@ -85,9 +263,6 @@ function createUserButton(form){
 }
 
 function editUser(){
-    const ul = document.getElementById('errors')
-    ul.innerText = ""
-
     const userForm = document.getElementById('editUser')
     const userFormData = new FormData(userForm)
     const userbody = {
@@ -99,11 +274,11 @@ function editUser(){
         password_confirmation: userFormData.get('password_confirmation'),
     }
 
-    fetchUserWithToken(`${usersURL}/${localStorage.username}`, "PATCH", userbody)
+    fetchUserWithToken(currentUserUrl, "PATCH", userbody)
         .then(response => {
             if (response.status >= 400) {
                 throw new Error("Bad request"),
-                displayErrors(response)
+                displayErrors()
             }
             return response
         }).then(response => {
@@ -112,11 +287,17 @@ function editUser(){
         })
 }
 
-function displayErrors(response){
+function displayErrors(){
+    clearErrors()
     const ul = document.getElementById('errors')
     const li = document.createElement('li')
-    li.innerText = "Invalid Field"
+    li.innerText = "Invalid Field(s)"
     ul.append(li)
+}
+
+function clearErrors(){
+    const ul = document.getElementById('errors')
+    ul.innerText = ""
 }
 
 function deleteUserButton(form){
@@ -133,7 +314,7 @@ function deleteUserButton(form){
 }
 
 function deleteUser(){
-    fetchUserWithToken(`${usersURL}/${localStorage.username}`, "DELETE")
+    fetchUserWithToken(currentUserUrl, "DELETE")
         .then(response => {
             if (response.status >= 400) {
                 throw new Error("Bad request")
@@ -292,10 +473,21 @@ function createPattern(){
     }
 
     fetchAndParse(patternsURL, "POST", patternBody)
-        .then(newPattern => {
-            if (newPattern["errors"]){
-                console.log(newPattern)}
+        .then(response => {
+            if (response["errors"]) console.errors(response)
+            return response
+        }).then(response => {
+            alert(`${response.name} Added! Next - add a Color for the Pattern!`)
+            optomisticAddPatternOption(response)
         })
+}
+
+function optomisticAddPatternOption(pattern) {
+    const select = document.getElementById('pattern-select')
+    const option = document.createElement('option')
+    option.value = pattern.id
+    option.innerText = pattern.name
+    select.appendChild(option)
 }
 
 function addOptions(){
@@ -378,7 +570,10 @@ function createColor(){
         .then(newColor => {
             if (newColor["errors"]){
                 console.log(newColor)
-            }
+            }else {
+                alert(`Color has been added!`)
+                location.reload()  
+            } 
         })
 }
 

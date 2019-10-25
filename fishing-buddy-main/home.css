@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Kalam&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Sacramento&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Kalam&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Libre+Franklin&display=swap');
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -15,7 +22,6 @@ time, mark, audio, video {
 	padding: 0;
 	border: 0;
 	font-size: 100%;
-	font: inherit;
 	vertical-align: baseline;
 }
 article, aside, details, figcaption, figure, 
@@ -41,8 +47,6 @@ table {
 	border-spacing: 0;
 }
 
-@import url('https://fonts.googleapis.com/css?family=Lato:700&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 
 .color1 {color: hsla(218, 55%, 29%, 100%)};
 .color2 {color: hsla(168, 100%, 19%, 100%)};
@@ -57,8 +61,6 @@ header {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-    font-size: xx-large;
-	font-style: black;
 	padding-bottom: 5px;
 	padding-top: 15px;
 	padding-left: 60px;
@@ -69,18 +71,11 @@ header {
 }
 
 header h1 {
-	font-family: 'Lato', sans-serif;
-	text-align: left;
-}
-
-header h2 {
-	font-family: 'Lato', sans-serif;
-	font-style: italic;
-	text-align: right;
-	font-size: 26px;
-	padding-right: 12px;
-	padding-bottom: 25px;
-
+    font-size: 55px;
+    font-style: normal;
+    font-weight: 1px;
+    text-align: left;
+    font-family: 'Sacramento', cursive;
 }
 
 header img {
@@ -99,7 +94,7 @@ nav {
 #main-nav {
     float: left;
     height: 100vh;
-    padding: 4rem 1rem;
+    padding: 25px 30px;
 }
 
 #nav-list {
@@ -122,12 +117,19 @@ nav {
 
 #user-name {
     font-size: 25px;
+    order: -2;
+    font-family: 'Libre Franklin', sans-serif;
+}
+
+#fishing-log {
     order: -1;
-    font-style: italic;
+    font-family: 'Kalam', cursive;
+    font-size: 20px;
+
 }
 
 main {
-    margin-left: 173px;
+    margin-left: 206px;
     font-family: 'Open Sans', sans-serif;
     min-height: 100%;
     height: 100%;
@@ -175,7 +177,7 @@ footer {
 
 #form-container {
     display: grid;
-    grid-template-columns: minmax(auto, 400px) auto;
+    grid-template-columns: minmax(200px, 400px) auto;
     grid-template-rows: 10px auto auto auto;
     justify-items: flex-start;
     column-gap: 2%;
@@ -282,12 +284,52 @@ footer {
     flex-wrap: wrap;
     justify-content: flex-start;
     align-content: flex-start;
+    margin-left: 10px;
+}
+
+.log-card {
+    display: grid;
+    grid-template-columns: minmax(200px, 400px) minmax(5px, 200px) auto;
+    grid-template-rows: auto auto auto auto;
+    align-content: center;
+    column-gap: 1%;
+    row-gap: 1%;
+    margin-bottom: 25px;
+}
+
+.log-card h4{
+    grid-column: 1 / span 3;
+    font-size: 23px;
+}
+
+.log-card .day-card-img {
+    grid-row: 2 / span 3;
+    width: 100%;
+    align-self: start;
+}
+
+.log-card ul {
+    grid-column: 2 / span 2;
+    grid-row: 2 / span 1;
+}
+
+.log-card .day-card-pattern {
+    grid-column: 2 / span 1;
+    grid-row: 3;
+    align-self: start;
+    width: 100%;
+    padding-left: 7px;
+}
+
+.log-card p {
+    grid-column: 2/ span 2;
+    padding-left: 7px;
 }
 
 .card {
     display: grid;
     grid-template-rows: 40px auto auto auto auto;
-    width: 25rem;
+    width: 350px;
     margin: 1rem;
 }
 
