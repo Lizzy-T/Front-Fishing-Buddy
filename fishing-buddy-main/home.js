@@ -152,18 +152,21 @@ function changeColorOption(){
         const newPair = pair.split("-")
         const option = document.createElement('option')
         option.className = "color-option"
-        if (newPair[0] === "None") return
-        option.innerText = newPair[0]
         option.value = newPair[1]
+        if (newPair[0].toLowerCase() === "none") {
+            option.innerText = "Default Color"
+        } else {
+            option.innerText = newPair[0]
+        }
         select.appendChild(option)
     })
 }
 
 function removeColorOptions(){
-    const options = document.getElementsByClassName('color-option')
-    for (let option of options){
+    const options = Array.from(document.getElementsByClassName('color-option'))
+    options.forEach(option => {
         option.remove()
-    }
+    })
 }
 
 function addDaysToNavBar(){
@@ -523,8 +526,8 @@ function createNewColorForm(container){
     </select>
     <label>Picture:</label>
     <input class="color-input" type="text" name="image" placeholder="Image Link">
-    <label>Color:</label>
-    <input class="color-input" type="text" name="name" placeholder="Red / None etc...">
+    <label id="color-name">Color: <p class="sidenote">If only one color type "none"</p></label>
+    <input id="name-of-color-input" class="color-input" type="text" name="name" placeholder="Red / None etc...">
     <label>What Sizes?</label>
     <input class="color-input" type="text" name='sizes' placeholder="16, 18, 20, etc...">
     `
